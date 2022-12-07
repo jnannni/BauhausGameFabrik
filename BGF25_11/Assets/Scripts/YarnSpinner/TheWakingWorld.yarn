@@ -1,0 +1,160 @@
+﻿title: FirstScene
+
+---
+<<set $hasClueA to false>>
+<<set $hasClueB to false>>
+<<set $hasClueC to false>>
+<<set $spokenToTheHouseMan to false>>
+<<set $spokenToTheCarMan to false>>
+<<set $spokentoTheCatPerson to false>>
+<<set $stairsareopen to false>>
+<<set $godownthestairs to false>>
+<<set $takethekey to false>>
+// Magnolia is in front of her aunt's house in a small uphill neighborhood:
+Magnolia: (It's so bright.)
+Magnolia: (Why did I go out again?)
+Magnolia: (Ah groceries...The fridge is empty.)
+Magnolia: (I should probably find a supermarket.)
+//new objective: find a supermarket
+===
+title: TheHouseMan
+---
+<<if not $spokentoTheHouseMan>>
+    Magnolia: Excuse me, do you know where the closest supermarket is?
+    TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
+    Magnolia: (What is he saying?)
+    Magnolia: Uh, I don't know. Put the curtains maybe?
+    TheHouseMan: ...
+    <<set $spokentoTheHouseMan to true>>
+<<else>>
+    Magnolia: I would really appreciate your help.
+    TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
+    Magnolia: (Again this.)
+    Magnolia: I really don't know, sorry.
+    TheHouseMan: ,,,
+<<endif>>
+-> I heard about the stairs. <<if $hasClueA>>
+   TheHouseMan: Keep to the left wall.
+   Magnolia: Is it really safe that way?
+   TheHouseMan:...
+   <<set $stairsareopen to true>>
+     -> Give up.
+-> Ask the man again.
+   Magnolia: Uhm, do you maybe know the way to the supermarket?
+   TheHouseMan: The sky is almost purple today.
+      -> Give up.
+-> Give up.
+===
+title: TheCarMan
+---
+TheCarMan: I have seen two rabbits down the street. 
+<<if not $spokentoTheCarMan>>
+    Magnolia: Rabbits? I guess it's not unusuall sir, the city is in the woods.
+    <<set $spokentoTheCarMan to true>>
+<<else>>
+    Magnolia: Were they wild rabbits sir?
+<<endif>>
+TheCarMan: It smells of sulphur.
+Magnolia: Excuse me?
+TheCarMan: ...
+-> Do you know where the closest supermarket is?
+   TheCarMan: Rabbits are purple only sometimes.
+   Magnolia: (Huh?)
+   -> Give up.
+-> How did you drive your car up here?
+   TheCarMan: Billy knows the secret of the stairs.
+    <<set $hasClueA to true>>
+    -> Which is?
+        TheCarMan: ...
+        -> Give up.
+    -> Billy? 
+        TheCarMan: Nighbors can be tiring.
+        -> Give up.
+        
+===
+title: TheStairs
+---
+<<if $stairsareopen>>
+ Magnolia: (So I should just listen to the strange neighbor?)
+  -> Go down the stairs.
+    //Here should be a code that lets you go to the next part.
+    <<set $godownthestairs to true>>
+  -> Rethink.
+<<else>>
+ Magnolia: (They seem like they will crumble under my feet.)
+ Magnolia: (I can't go there.)
+<<endif>>
+
+===
+
+title: TheSign
+---
+//Here is an interaction with the sign that gives the clue for TheCatPerson.
+Magnolia: (I almost missed it.)
+Magnolia: (Am I too short, or are they not good at planning.)
+ -> Read the sign.
+    The Sign: Your local supermarket! Now in The Little Corner!
+      <<set $hasClueB to true>>
+ -> Ignore it.
+===
+
+title: TheCatPerson
+---
+//We are now in the Downhill part of the city, and in this part we find the supermarket. In this part there is only one person.
+<<if not $spokentoTheCatPerson>>
+ Magnolia: (Is it an animal?)
+ Magnolia: (Maybe she is just tying her shoelaces.)
+ Magnolia: (...)
+ Magnolia: (Stop staring Magnolia!)
+     <<set $spokentoTheCatPerson to true>>
+<<else>>
+<<endif>>
+ TheCatPerson: Of all these days, this one seems the smallest.
+ Magnolia: ...
+ TheCatPerson: Does it bother you to carry all that lives?
+     -> I am looking for the Little Corner? <<if $hasClueB>>
+        TheCatPerson: I used to live there.
+        Magnolia: Oh?
+        TheCatPerson: I always hated that curtain.
+        <<set $hasClueC to true>>
+        //Here should be a code that let's you move the curtain away.
+     -> Me?
+        TheCatPerson: Sometimes we are the bad guys.
+        Magnolia: Okay...
+          -> Run away.
+     -> Is that a cat?
+        TheCatPerson: Cats never blame others for their loneliness.
+        Magnolia: Oh, so there is a cat!
+        TheCatPerson: Never trust what you see.
+        Magnolia: ...
+          -> Slowly move away.
+     -> Do you know where the nearest supermarket is?
+        TheCatPerson: ...
+        Magnolia: ...
+          -> Give up.
+===
+
+title: TheLittleCorner
+---
+  Magnolia: (Ah so here it is.)
+     -> Move the curtain. <<if $hasClueC>>
+     Magnolia: (I don't know how to go there.)
+       -> Give up.
+===
+
+title: TheFlamingKey
+---
+ Magnolia: (Okay, now it's really weird.)
+ Magnolia: (why do I feel like it won't actually burn me?)
+  -> Pick it up.
+    //This should trigger the cutscene and all.
+    <<set $takethekey to true>>
+  -> Nah. Go to the supermarket instead.
+===
+
+title: TheSuperMarket
+---
+ Magnolia: (I can finally end this day.)
+   -> Enter.
+   //There should be a script to restart the game.
+===
