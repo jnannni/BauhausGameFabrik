@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class NPCBody : MonoBehaviour
+public class NPCInteractable : MonoBehaviour
 {
     public enum NPCState
     {
@@ -18,7 +18,7 @@ public class NPCBody : MonoBehaviour
     public NPCState npcState;
     public string npcName;    
     public bool interactable;
-    public string dialogueStartingNode;
+    [SerializeField]private string dialogueStartingNode;
 
     private void Start()
     {
