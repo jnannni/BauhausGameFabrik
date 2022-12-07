@@ -48,7 +48,7 @@ title: TheGolem
      Magnolia: (Wait. Is that a face there?)
      <<set $spokentoTheGolem to true>>
  <<else>>
-     Magnolia: (I don't know what to do with this guy.)
+     Magnolia: (I don't know what to do with this guy yes.)
  <<endif>>
    -> Inspect.
     Magnolia: (It is a face!)
