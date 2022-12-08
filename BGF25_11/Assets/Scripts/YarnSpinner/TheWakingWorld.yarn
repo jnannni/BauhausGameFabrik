@@ -1,38 +1,52 @@
 ﻿title: FirstScene
 
 ---
+//variables for inside the Yarn
 <<set $hasClueA to false>>
 <<set $hasClueB to false>>
 <<set $hasClueC to false>>
-<<set $spokenToTheHouseMan to false>>
-<<set $spokenToTheCarMan to false>>
-<<set $spokentoTheCatPerson to false>>
 <<set $stairsareopen to false>>
+
+//variables for using in Unity
 <<set $godownthestairs to false>>
 <<set $takethekey to false>>
+<<set $gobackhome to false>>
+<<set $curtainopens to false>>
+
 // Magnolia is in front of her aunt's house in a small uphill neighborhood:
 Magnolia: (It's so bright.)
 Magnolia: (Why did I go out again?)
 Magnolia: (Ah groceries...The fridge is empty.)
-Magnolia: (I should probably find a supermarket.)
 //new objective: find a supermarket
 ===
 title: TheHouseMan
 ---
-<<if not $spokentoTheHouseMan>>
+<<if visited_count("TheHouseMan") > 1>>
+  TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
+  <<if $stairsareopen == true>>
+    Magnolia: (I can't bother with him anymore.) 
+  <<else>>
+    <<jump TheHouseMan_Questions>>
+  <<endif>>
+<<elseif visited_count("TheHouseMan") == 1>>
+  Magnolia: I would really appreciate your help.
+  TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
+  Magnolia: (Again this.)
+  Magnolia: I really don't know, sorry.
+  TheHouseMan: ...
+  <<jump TheHouseMan_Questions>>
+<<else>>
     Magnolia: Excuse me, do you know where the closest supermarket is?
-    TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
+    TheHouseMan: I can't scrub the Sun from my windows. How does one take the Sun off?
     Magnolia: (What is he saying?)
     Magnolia: Uh, I don't know. Put the curtains maybe?
     TheHouseMan: ...
-    <<set $spokentoTheHouseMan to true>>
-<<else>>
-    Magnolia: I would really appreciate your help.
-    TheHouseMan: I can't scrub the Sun from my windows. How does one take the sun off?
-    Magnolia: (Again this.)
-    Magnolia: I really don't know, sorry.
-    TheHouseMan: ,,,
-<<endif>>
+    <<jump TheHouseMan_Questions>>
+<<endif>>  
+===
+
+title: TheHouseMan_Questions
+---
 -> I heard about the stairs. <<if $hasClueA>>
    TheHouseMan: Keep to the left wall.
    Magnolia: Is it really safe that way?
@@ -47,16 +61,36 @@ title: TheHouseMan
 ===
 title: TheCarMan
 ---
-TheCarMan: I have seen two rabbits down the street. 
-<<if not $spokentoTheCarMan>>
-    Magnolia: Rabbits? I guess it's not unusuall sir, the city is in the woods.
-    <<set $spokentoTheCarMan to true>>
+<<if visited_count("TheCarMan") > 1>>
+  TheCarMan: I have seen two rabbits down the street.
+  <<if $hasClueA == true>>
+    Magnolia: Me too.
+    TheCarMan: Good.
+  <<else>>
+    <<jump TheCarMan_Questions>>
+  <<endif>>
+<<elseif visited_count("TheCarMan") == 1>>
+ TheCarMan: I have seen two rabbits down the street.
+ Magnolia: Were they wild rabbits sir?
+ TheCarMan: It smells of sulphur.
+ Magnolia: Excuse me?
+ TheCarMan: ...
+ <<jump TheCarMan_Questions>>
 <<else>>
-    Magnolia: Were they wild rabbits sir?
+ TheCarMan: I have seen two rabbits down the street.
+ Magnolia: Rabbits? I guess it's not unusuall sir, the city is in the woods.
+ TheCarMan: We are sinking actually.
+ Magnolia: Really? How so?
+ TheCarMan: Rabbits learn to swim.
+ Magnolia: I am not sure...
+ TheCarMan: *grunts*
+ Magnolia: (Better not argue.)
+ <<jump TheCarMan_Questions>>
 <<endif>>
-TheCarMan: It smells of sulphur.
-Magnolia: Excuse me?
-TheCarMan: ...
+===
+
+title: TheCarMan_Questions
+---
 -> Do you know where the closest supermarket is?
    TheCarMan: Rabbits are purple only sometimes.
    Magnolia: (Huh?)
@@ -70,7 +104,6 @@ TheCarMan: ...
     -> Billy? 
         TheCarMan: Nighbors can be tiring.
         -> Give up.
-        
 ===
 title: TheStairs
 ---
@@ -90,24 +123,31 @@ title: TheStairs
 title: TheSign
 ---
 //Here is an interaction with the sign that gives the clue for TheCatPerson.
-Magnolia: (I almost missed it.)
-Magnolia: (Am I too short, or are they not good at planning.)
- -> Read the sign.
+<<if visited_count("TheSign") > 0>>
+ Magnolia: (Yeah, the sign says it's somewehere here.)
+<<else>>
+ Magnolia: (I almost missed it.)
+ Magnolia: (Am I too short, or are they not good at planning.)
+<<endif>>
+  -> Read the sign.
     The Sign: Your local supermarket! Now in The Little Corner!
       <<set $hasClueB to true>>
- -> Ignore it.
+  -> Ignore it.
 ===
 
 title: TheCatPerson
 ---
 //We are now in the Downhill part of the city, and in this part we find the supermarket. In this part there is only one person.
-<<if not $spokentoTheCatPerson>>
+<<if visited_count("TheCatPerson") > 1>>
+ Magnolia: ...
+<<elseif visited_count("TheCatPerson") == 1>>
+ Magnolia: (There's this lady again.)
+ Magnolia: (I still can't see what she's doing actually.)
+<<else>>
  Magnolia: (Is it an animal?)
  Magnolia: (Maybe she is just tying her shoelaces.)
  Magnolia: (...)
  Magnolia: (Stop staring Magnolia!)
-     <<set $spokentoTheCatPerson to true>>
-<<else>>
 <<endif>>
  TheCatPerson: Of all these days, this one seems the smallest.
  Magnolia: ...
@@ -137,15 +177,23 @@ title: TheCatPerson
 title: TheLittleCorner
 ---
   Magnolia: (Ah so here it is.)
-     -> Move the curtain. <<if $hasClueC>>
+   <<if $hasClueC>>
+     -> Move the curtain.
+      <<set $curtainopens to true>>
+   <<else>>
      Magnolia: (I don't know how to go there.)
        -> Give up.
+   <<endif>>
 ===
 
 title: TheFlamingKey
 ---
+<<if visited_count("TheFlamingKey") > 0>>
+ Magnolia: (It almost pulls me in.)
+<<else>>
  Magnolia: (Okay, now it's really weird.)
- Magnolia: (why do I feel like it won't actually burn me?)
+ Magnolia: (Why do I feel like it won't actually burn me?)
+<<endif>>
   -> Pick it up.
     //This should trigger the cutscene and all.
     <<set $takethekey to true>>
@@ -156,5 +204,6 @@ title: TheSuperMarket
 ---
  Magnolia: (I can finally end this day.)
    -> Enter.
-   //There should be a script to restart the game.
+    //There should be a script to restart the game.
+    <<set $gobackhome to true>>
 ===
