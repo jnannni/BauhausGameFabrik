@@ -38,14 +38,12 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
-    // Start is called before the first frame update
+    
     void OnEnable()
     {
         ClearInventorySlots();
         MakeInventorySlots();
-        SetTextAndButton("", false);
-        //currentItem.isUsed = false;
+        SetTextAndButton("", false);        
     }
 
     private void Update()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Yarn.Unity;
 
 public class PhysicalInvetoryItem : MonoBehaviour
 {
@@ -12,27 +13,34 @@ public class PhysicalInvetoryItem : MonoBehaviour
     public Animator animator;
     [SerializeField] private string pickedUpAnim = "PickedUp";
 
+    private InMemoryVariableStorage variableStorage;
+    private bool takethekey = false;
+
+    private void Awake()
+    {
+        variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
+    }
     private void Start()
     {
         isPressed = false;
         isItemClose = false;
-        //animator.SetBool("isPickedUp", false);
+        
     }
 
     private void Update()
     {        
         isPressed = Input.GetKeyDown(KeyCode.J);
-        if (isPressed && isItemClose)
-        {
-            Debug.Log(item.name);
+        /*if (isPressed && isItemClose)
+        {            
             FindObjectOfType<AudioManager>().Play("Item_PickUp");
             AddItemToInventory();
             animator.Play("PickedUp", 0, 0f);           
-            Destroy(this.gameObject);
-            if (item.name == "Key")
-            {
-                SceneManager.LoadScene("DreamWorld");
-            }
+            Destroy(this.gameObject);            
+        }*/
+        variableStorage.TryGetValue("$takethekey", out takethekey);
+        if (takethekey)
+        {
+            SceneManager.LoadScene("DreamWorld");
         }
     }
 
@@ -43,12 +51,7 @@ public class PhysicalInvetoryItem : MonoBehaviour
             isItemClose = true;
             
         }
-    }
-
-    IEnumerator PickUpAnimation()
-    {       
-        yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length * 1/animator.runtimeAnimatorController.animationClips[0].apparentSpeed);
-    }
+    }   
 
     private void OnTriggerExit2D(Collider2D collision)
     {
