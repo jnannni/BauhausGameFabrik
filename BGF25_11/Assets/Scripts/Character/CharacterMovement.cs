@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -16,15 +17,22 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 movement;
     public float speed = 5f;
     public Animator animator;
+    [SerializeField] private BoolValue isDialogueRunning;
+
+    private void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetBool("isDialogueRunning", isDialogueRunning.initialValue);
         movement = Vector2.zero;
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        if (movement != Vector2.zero)
+        if (!isDialogueRunning.initialValue && movement != Vector2.zero)
         {
             Movement();
             animator.SetFloat("Horizontal", movement.x);

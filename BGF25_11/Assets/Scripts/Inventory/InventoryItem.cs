@@ -13,6 +13,7 @@ public class InventoryItem : ScriptableObject
     public Sprite itemImageDW;
     public bool usable;
     public bool isUsed = false;
+    public bool collectable = true;
     public UnityEvent thisEvent;
     [SerializeField] private GameObject useButton;
 

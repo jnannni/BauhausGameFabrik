@@ -29,6 +29,7 @@ public class InventorySlot : MonoBehaviour
 
     public void ClickedOn()
     {
+        Debug.Log("click");
         if (thisItem)
         {
             thisManager.SetupDescriptionAndButton(thisItem.itemDescription, thisItem.usable, thisItem);

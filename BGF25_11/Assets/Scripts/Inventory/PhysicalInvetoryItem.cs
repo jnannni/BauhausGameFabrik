@@ -30,12 +30,17 @@ public class PhysicalInvetoryItem : MonoBehaviour
     private void Update()
     {        
         isPressed = Input.GetKeyDown(KeyCode.J);
-        /*if (isPressed && isItemClose)
+        if (isPressed && isItemClose && item.collectable)
         {            
             FindObjectOfType<AudioManager>().Play("Item_PickUp");
             AddItemToInventory();
             animator.Play("PickedUp", 0, 0f);           
             Destroy(this.gameObject);            
+        }
+        /*if (isItemClose && !item.collectable)
+        {            
+            AddItemToInventory();            
+            Destroy(this.gameObject);
         }*/
         variableStorage.TryGetValue("$takethekey", out takethekey);
         if (takethekey)
@@ -62,7 +67,7 @@ public class PhysicalInvetoryItem : MonoBehaviour
         }
     }
 
-    void AddItemToInventory()
+    public void AddItemToInventory()
     {
         if (playerInventory && item)
         {

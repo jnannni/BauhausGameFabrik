@@ -195,8 +195,10 @@ title: TheFlamingKey
  Magnolia: (Why do I feel like it won't actually burn me?)
 <<endif>>
   -> Pick it up.
-    //This should trigger the cutscene and all.
-    <<set $takethekey to true>>
+    //This should trigger the cutscene and all.     
+    <<fadeIn>>   
+    <<set $takethekey to true>>        
+    <<fadeOut>>
   -> Nah. Go to the supermarket instead.
 ===
 

@@ -18,6 +18,7 @@ MonoBehaviour:
   itemImageDW: {fileID: 341419068, guid: 3878e04fc0af1442daedf965001e2513, type: 3}
   usable: 0
   isUsed: 0
+  collectable: 0
   thisEvent:
     m_PersistentCalls:
       m_Calls: []
