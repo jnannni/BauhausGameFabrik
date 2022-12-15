@@ -1,6 +1,7 @@
 ﻿title: FirstScene
 
 ---
+<<fadeIn>>
 //variables for inside the Yarn
 <<set $hasClueA to false>>
 <<set $hasClueB to false>>
@@ -12,6 +13,7 @@
 <<set $takethekey to false>>
 <<set $gobackhome to false>>
 <<set $curtainopens to false>>
+<<fadeOut>>
 
 // Magnolia is in front of her aunt's house in a small uphill neighborhood:
 Magnolia: (It's so bright.)
@@ -195,10 +197,9 @@ title: TheFlamingKey
  Magnolia: (Why do I feel like it won't actually burn me?)
 <<endif>>
   -> Pick it up.
-    //This should trigger the cutscene and all.     
-    <<fadeIn>>   
-    <<set $takethekey to true>>        
-    <<fadeOut>>
+    //This should trigger the cutscene and all.           
+    <<set $takethekey to true>> 
+    <<fadeIn>>            
   -> Nah. Go to the supermarket instead.
 ===
 

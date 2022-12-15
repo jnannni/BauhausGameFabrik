@@ -2,6 +2,7 @@
 tags:
 ---
 //variables for inside the Yarn
+<<fadeIn>>
 <<set $hasClueD to false>>
 <<set $openedInventory to false>>
 
@@ -9,7 +10,7 @@ tags:
 <<set $openInventory to false>>
 <<set $triggerback to false>>
 <<set $triggerAnimation to false>>
-
+<<fadeOut>>
 Magnolia: (What has just happened?)
 Magnolia: (My head feels heavy.)
 Magnolia: (Did I pass out?)
@@ -72,6 +73,8 @@ title: TheGolem_Questions
   -> Put the stone back.
   //triggers back to the Waking World
    <<set $triggerback to true>>
+   <<fadeIn>>
+   <<fadeOut>>
   -> Leave it be.
 <<endif>>
 ===

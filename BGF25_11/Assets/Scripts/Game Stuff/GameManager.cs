@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private DialogueRunner dialogueRunner;
     private FadeLayer fadeLayer;
     public BoolValue isDialogueRunning;
-    public Animator animator;
+    public Animator animator;    
     // Start is called before the first frame update
     void Awake()
     {
@@ -16,12 +16,13 @@ public class GameManager : MonoBehaviour
         dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
         isDialogueRunning.initialValue = false;
         dialogueRunner.AddCommandHandler<float>("fadeIn", FadeIn);
-        dialogueRunner.AddCommandHandler<float>("fadeOut", FadeOut);
+        dialogueRunner.AddCommandHandler<float>("fadeOut", FadeOut);        
     }
 
     // Update is called once per frame
     void Update()
-    {        
+    {
+        Debug.Log(isDialogueRunning.i);
     }
 
     public void DialogueIsRunning()

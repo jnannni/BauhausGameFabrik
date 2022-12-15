@@ -14,9 +14,10 @@ public class NPCInteractable : MonoBehaviour
 
     private DialogueRunner dialogueRunner;    
     private bool isCurrentConversation = false;
-    [SerializeField] private string dialogueStartingNode;
-    public Animator animator;
-    public BoolValue isDialogueRunning;
+    [SerializeField] private string dialogueStartingNode;    
+    [SerializeField] private Animator animator;
+    public Animator arrowAnimator;
+    public BoolValue isDialogueRunning;    
 
     public bool interactable;    
     public NPCState npcState;
@@ -28,6 +29,10 @@ public class NPCInteractable : MonoBehaviour
 
     private void Start()
     {
+        if (animator == null)
+        {
+            Debug.Log("No Animator Needed");
+        }
         dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
         dialogueRunner.onDialogueComplete.AddListener(EndConversation);
         isPressed = false;        
@@ -36,11 +41,12 @@ public class NPCInteractable : MonoBehaviour
     void Update()
     {        
         isPressed = Input.GetKeyDown(KeyCode.K);
-        distance = Vector2.Distance(target.transform.position, this.gameObject.transform.position);
+        distance = Vector2.Distance(target.transform.position, this.gameObject.transform.position);        
         if (distance < minDist && interactable)
         {
-            //show the key to interact
+            arrowAnimator.SetBool("showArrow", true);
         }
+        else arrowAnimator.SetBool("showArrow", false);
         Interact();
         if (!isDialogueRunning.initialValue)
         {            
@@ -52,14 +58,21 @@ public class NPCInteractable : MonoBehaviour
     {        
         if (distance < minDist && isPressed && interactable)
         {
-            ChangeDirection(-target.GetComponent<Animator>().GetFloat("Horizontal"),
+            if (animator)
+            {
+                ChangeDirection(-target.GetComponent<Animator>().GetFloat("Horizontal"),
                             -target.GetComponent<Animator>().GetFloat("Vertical"));
+            }
             PlayVoice();
             StartConversation();
             Debug.Log("interactable npc");
         } else if (distance < minDist && !interactable) {
-            ChangeDirection(-target.GetComponent<Animator>().GetFloat("Horizontal"),
-                            -target.GetComponent<Animator>().GetFloat("Vertical"));
+            if (animator)
+            {
+                ChangeDirection(-target.GetComponent<Animator>().GetFloat("Horizontal"),
+                                -target.GetComponent<Animator>().GetFloat("Vertical"));
+            }
+            
             PlayVoice();
             StartConversation();
             Debug.Log("non interactable npc");

@@ -15,6 +15,7 @@ public class Level1 : MonoBehaviour
 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject targetPosition;
+    [SerializeField] private GameObject homePosition;
     private GameObject curtains;   
     private DialogueRunner dialogueRunner;
     private InMemoryVariableStorage variableStorage;
@@ -22,8 +23,7 @@ public class Level1 : MonoBehaviour
     private bool godownthestairs;
     private bool gobackhome;
     private bool curtainopens;
-    public BoolValue isLevel1Completed;
-    public VectorValue homePosition;
+    public BoolValue isLevel1Completed;    
     private bool isDownTheStairs;
     private bool wentHome;
     private FadeLayer fadeLayer;    
@@ -37,10 +37,11 @@ public class Level1 : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {        
         dialogueRunner.StartDialogue("FirstScene");
-        isDownTheStairs = false;
-        wentHome = false;
+            isDownTheStairs = false;
+            wentHome = false;
+       
         curtains = GameObject.FindWithTag("TheCurtains");
     }
 
@@ -72,8 +73,10 @@ public class Level1 : MonoBehaviour
 
         if (gobackhome && !wentHome)
         {
-            player.transform.position = new Vector2(homePosition.initialValue.x, homePosition.initialValue.y);
+            StartCoroutine(fadeLayer.FadeIn());
+            player.transform.position = homePosition.transform.position;
             wentHome = true;
+            StartCoroutine(fadeLayer.FadeOut());
         }
     }
 
@@ -81,15 +84,5 @@ public class Level1 : MonoBehaviour
     {
         player.transform.position = targetPosition.transform.position;        
     }
-
-
-    private Coroutine FadeIn(float time = 1f)
-    {
-        return StartCoroutine(fadeLayer.ChangeAlphaOverTime(0, time));
-    }
-
-    private Coroutine FadeOut(float time = 1f)
-    {
-        return StartCoroutine(fadeLayer.ChangeAlphaOverTime(1, time));
-    }
+    
 }

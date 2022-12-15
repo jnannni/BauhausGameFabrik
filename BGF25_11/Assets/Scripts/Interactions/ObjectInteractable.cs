@@ -9,20 +9,19 @@ public class ObjectInteractable : MonoBehaviour
     private bool isCurrentConversation = false;   
     [SerializeField] private InventoryItem item;
     [SerializeField] private PlayerInventory playerInventory;
-    [SerializeField] private string dialogueStartingNode;    
+    [SerializeField] private string dialogueStartingNode;
+    public Animator animator;
 
     public bool collectable;
     public GameObject target;    
     private float distance;
-    public float minDist = 0.5f;
-    private bool toInteract;
+    public float minDist = 0.5f;    
     private bool isPressed;
 
     private void Start()
     {
         dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
-        dialogueRunner.onDialogueComplete.AddListener(EndConversation);
-        toInteract = false;
+        dialogueRunner.onDialogueComplete.AddListener(EndConversation);        
         isPressed = false;
     }
 
@@ -33,10 +32,9 @@ public class ObjectInteractable : MonoBehaviour
         distance = Vector2.Distance(target.transform.position, this.gameObject.transform.position);
         if (distance < minDist)
         {
-            toInteract = true;
-            //Debug.Log("interactable");
+            animator.SetBool("showArrow", true);
         }
-        else toInteract = false;
+        else animator.SetBool("showArrow", false);
         Interact();
     }
 
@@ -55,8 +53,7 @@ public class ObjectInteractable : MonoBehaviour
 
     private void StartConversation()
     {
-        Debug.Log($"Started conversation with {name}.");
-        //isDialogueRunning.initialValue = true;
+        Debug.Log($"Started conversation with {name}.");        
         isCurrentConversation = true;
         dialogueRunner.StartDialogue(dialogueStartingNode);
     }
@@ -64,11 +61,9 @@ public class ObjectInteractable : MonoBehaviour
     private void EndConversation()
     {
         if (isCurrentConversation)
-        {
-            //isDialogueRunning.initialValue = false;
+        {            
             isCurrentConversation = false;
             Debug.Log($"Started conversation with {name}.");
         }
     }
-
 }
